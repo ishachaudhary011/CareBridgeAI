@@ -1,0 +1,36 @@
+package com.carebridge.service;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.carebridge.entity.Prescription;
+import com.carebridge.repository.PrescriptionRepository;
+
+@Service
+public class PrescriptionService {
+
+    @Autowired
+    private PrescriptionRepository prescriptionRepository;
+
+    public Prescription savePrescription(Prescription prescription) {
+        return prescriptionRepository.save(prescription);
+    }
+
+    public List<Prescription> getAllPrescriptions() {
+        return prescriptionRepository.findAll();
+    }
+
+    public List<Prescription> getPrescriptionsByEhrId(Long ehrId) {
+        return prescriptionRepository.findByEhrId(ehrId);
+    }
+
+    public Prescription getPrescriptionById(Long id) {
+        return prescriptionRepository.findById(id).orElse(null);
+    }
+
+    public void deletePrescription(Long id) {
+        prescriptionRepository.deleteById(id);
+    }
+}
