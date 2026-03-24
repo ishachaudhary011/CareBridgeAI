@@ -7,6 +7,7 @@ CareBridgeAI is an AI-powered system that converts doctor–patient voice conver
 
 ## 🎯 Objective
 
+* Create Health Record for Patient
 * Automate medical documentation
 * Reduce workload for healthcare professionals
 * Improve accuracy of patient records

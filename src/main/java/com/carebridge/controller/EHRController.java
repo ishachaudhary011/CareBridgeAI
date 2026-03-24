@@ -15,18 +15,21 @@ public class EHRController {
     @Autowired
     private EHRService ehrService;
 
-    @PostMapping
-    public EHR addRecord(@RequestBody EHR ehr){
+    // 🔹 SAVE RECORD (NLP will run automatically)
+    @PostMapping("/save")
+    public EHR saveRecord(@RequestBody EHR ehr) {
         return ehrService.saveRecord(ehr);
     }
 
-    @GetMapping
-    public List<EHR> getAllRecords(){
+    // 🔹 GET ALL RECORDS
+    @GetMapping("/all")
+    public List<EHR> getAllRecords() {
         return ehrService.getAllRecords();
     }
 
+    // 🔹 GET BY PATIENT ID
     @GetMapping("/patient/{id}")
-    public List<EHR> getPatientRecords(@PathVariable Long id){
+    public List<EHR> getPatientRecords(@PathVariable Long id) {
         return ehrService.getPatientRecords(id);
     }
 }

@@ -21,6 +21,4 @@ public class Patient {
     @OneToMany(mappedBy = "patient")
     private List<Appointment> appointments;
 
-    @OneToMany(mappedBy = "patient")
-    private List<EHR> ehrRecords;
 }
