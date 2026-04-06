@@ -1,12 +1,11 @@
 package com.carebridge.controller;
 
-import java.util.List;
-
+import com.carebridge.entity.Patient;
+import com.carebridge.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.carebridge.entity.Patient;
-import com.carebridge.service.PatientService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/patients")

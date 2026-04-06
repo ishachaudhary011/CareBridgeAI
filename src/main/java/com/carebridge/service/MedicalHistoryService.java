@@ -1,12 +1,11 @@
 package com.carebridge.service;
 
-import java.util.List;
-
+import com.carebridge.entity.MedicalHistory;
+import com.carebridge.repository.MedicalHistoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carebridge.entity.MedicalHistory;
-import com.carebridge.repository.MedicalHistoryRepository;
+import java.util.List;
 
 @Service
 public class MedicalHistoryService {

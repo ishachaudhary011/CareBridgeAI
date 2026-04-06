@@ -1,59 +1,76 @@
 package com.carebridge.service;
 
+import com.carebridge.DTO.MedicalResponse;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import java.util.*;
+import org.springframework.web.client.RestTemplate;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Service
 public class NLPService {
 
-    private static final Map<String, String> symptomToDiagnosis = new HashMap<>();
-    static {
-        symptomToDiagnosis.put("fever", "Fever");
-        symptomToDiagnosis.put("cough", "Cough");
-        symptomToDiagnosis.put("headache", "Headache");
-        symptomToDiagnosis.put("vomiting", "Vomiting");
-        symptomToDiagnosis.put("diabetes", "Diabetes");
-        symptomToDiagnosis.put("hypertension", "Hypertension");
-    }
+    @Value("${openai.api.url}")
+    private String apiUrl;
 
-    private static final Map<String, String> diagnosisToICD = new HashMap<>();
-    static {
-        diagnosisToICD.put("Fever", "MG26");
-        diagnosisToICD.put("Cough", "MD12");
-        diagnosisToICD.put("Headache", "8A80");
-        diagnosisToICD.put("Vomiting", "MD90");
-        diagnosisToICD.put("Diabetes", "5A11");
-        diagnosisToICD.put("Hypertension", "BA00");
-    }
+    @Value("${openai.api.key}")
+    private String apiKey;
+    private final ObjectMapper objectMapper = new ObjectMapper();
 
-    public Map<String, Object> extractData(String text) {
-        if (text == null) text = "";
-        text = text.toLowerCase();
+    public MedicalResponse extractMedicalData(String text) {
 
-        List<String> symptoms = new ArrayList<>();
-        Set<String> diagnosesSet = new LinkedHashSet<>();
-        Set<String> icdSet = new LinkedHashSet<>();
+        RestTemplate restTemplate = new RestTemplate();
 
-        for (String key : symptomToDiagnosis.keySet()) {
-            if (text.contains(key)) {
-                symptoms.add(key);
-                String disease = symptomToDiagnosis.get(key);
-                diagnosesSet.add(disease);
-                String icd = diagnosisToICD.getOrDefault(disease, "UNKNOWN");
-                icdSet.add(icd);
-            }
+        String prompt = """
+        Extract diseases, symptoms, and medications from the text.
+        Return strictly JSON:
+        {
+          "diseases": [],
+          "symptoms": [],
+          "medications": []
         }
 
-        Map<String, Object> result = new HashMap<>();
-        result.put("symptoms", symptoms.isEmpty() ? null : String.join(", ", symptoms));
-        result.put("diagnosis", diagnosesSet.isEmpty() ? "Not Found" : String.join(", ", diagnosesSet));
-        result.put("icdCode", icdSet.isEmpty() ? "UNKNOWN" : String.join(", ", icdSet));
+        Text: """ + text;
 
-        // Debug print
-        System.out.println("Detected Symptoms: " + symptoms);
-        System.out.println("Diagnosis: " + result.get("diagnosis"));
-        System.out.println("ICD Codes: " + result.get("icdCode"));
+        Map<String, Object> body = new HashMap<>();
+        body.put("model", "gpt-5-mini");
+        body.put("input", prompt);
 
-        return result;
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.setBearerAuth(apiKey);
+
+        HttpEntity<Map<String, Object>> request =
+                new HttpEntity<>(body, headers);
+
+        try {
+            ResponseEntity<String> response =
+                    restTemplate.postForEntity(apiUrl, request, String.class);
+
+            // 🔥 Extract text from OpenAI response
+            JsonNode root = objectMapper.readTree(response.getBody());
+
+            String content = root
+                    .path("output")
+                    .get(0)
+                    .path("content")
+                    .get(0)
+                    .path("text")
+                    .asText();
+
+            // 🔥 Convert JSON string → MedicalResponse
+            return objectMapper.readValue(content, MedicalResponse.class);
+
+        } catch (Exception e) {
+            System.out.println("NLP Error: " + e.getMessage());
+            return new MedicalResponse(); // fail-safe
+        }
     }
 }

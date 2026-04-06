@@ -1,12 +1,11 @@
 package com.carebridge.controller;
 
-import java.util.List;
-
+import com.carebridge.entity.Prescription;
+import com.carebridge.service.PrescriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.carebridge.entity.Prescription;
-import com.carebridge.service.PrescriptionService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/prescriptions")
@@ -16,17 +15,17 @@ public class PrescriptionController {
     private PrescriptionService prescriptionService;
 
     @PostMapping
-    public Prescription addPrescription(@RequestBody Prescription prescription){
+    public Prescription addPrescription(@RequestBody Prescription prescription) {
         return prescriptionService.savePrescription(prescription);
     }
 
     @GetMapping
-    public List<Prescription> getAllPrescriptions(){
+    public List<Prescription> getAllPrescriptions() {
         return prescriptionService.getAllPrescriptions();
     }
 
     @GetMapping("/ehr/{id}")
-    public List<Prescription> getPrescriptions(@PathVariable Long id){
+    public List<Prescription> getPrescriptions(@PathVariable Long id) {
         return prescriptionService.getPrescriptionsByEhrId(id);
     }
 }

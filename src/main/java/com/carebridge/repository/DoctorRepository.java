@@ -1,7 +1,7 @@
 package com.carebridge.repository;
 
-import org.springframework.data.jpa.repository.JpaRepository;
 import com.carebridge.entity.Doctor;
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 

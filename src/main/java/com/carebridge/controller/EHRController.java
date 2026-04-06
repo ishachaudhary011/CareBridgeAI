@@ -1,12 +1,11 @@
 package com.carebridge.controller;
 
-import java.util.List;
-
+import com.carebridge.entity.EHR;
+import com.carebridge.service.EHRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.carebridge.entity.EHR;
-import com.carebridge.service.EHRService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/ehr")

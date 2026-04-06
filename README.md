@@ -1,9 +1,9 @@
 # 🏥 CareBridgeAI
 
-
 ## 📌 Overview
 
-CareBridgeAI is an AI-powered system that converts doctor–patient voice conversations into structured Electronic Health Records (EHR). It aims to reduce manual documentation time and improve accuracy in medical record management.
+CareBridgeAI is an AI-powered system that converts doctor–patient voice conversations into structured Electronic Health
+Records (EHR). It aims to reduce manual documentation time and improve accuracy in medical record management.
 
 ## 🎯 Objective
 

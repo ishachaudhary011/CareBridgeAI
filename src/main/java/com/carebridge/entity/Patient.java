@@ -1,7 +1,8 @@
 package com.carebridge.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+
 import java.util.List;
 
 @Entity
@@ -13,7 +14,7 @@ public class Patient {
     private Long id;
 
     private String name;
-    
+
     private String gender;
     private String phone;
     private Integer age;

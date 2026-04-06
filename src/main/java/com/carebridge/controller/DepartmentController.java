@@ -1,12 +1,11 @@
 package com.carebridge.controller;
 
-import java.util.List;
-
+import com.carebridge.entity.Department;
+import com.carebridge.service.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.carebridge.entity.Department;
-import com.carebridge.service.DepartmentService;
+import java.util.List;
 
 @RestController
 @RequestMapping("/departments")

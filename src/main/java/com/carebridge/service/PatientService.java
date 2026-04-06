@@ -1,12 +1,11 @@
 package com.carebridge.service;
 
-import java.util.List;
-
+import com.carebridge.entity.Patient;
+import com.carebridge.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carebridge.entity.Patient;
-import com.carebridge.repository.PatientRepository;
+import java.util.List;
 
 @Service
 public class PatientService {

@@ -1,8 +1,8 @@
-
 package com.carebridge.entity;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Data;
+
 import java.util.List;
 
 @Entity
@@ -13,7 +13,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;  
+    private String name;
 
     @OneToMany(mappedBy = "department")
     private List<Doctor> doctors;

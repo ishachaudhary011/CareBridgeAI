@@ -1,12 +1,11 @@
 package com.carebridge.service;
 
-import java.util.List;
-
+import com.carebridge.entity.User;
+import com.carebridge.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carebridge.entity.User;
-import com.carebridge.repository.UserRepository;
+import java.util.List;
 
 @Service
 public class UserService {

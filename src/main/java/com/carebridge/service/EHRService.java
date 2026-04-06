@@ -1,13 +1,12 @@
 package com.carebridge.service;
 
-import java.util.List;
-import java.util.Map;
-
+import com.carebridge.entity.EHR;
+import com.carebridge.repository.EHRRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.carebridge.entity.EHR;
-import com.carebridge.repository.EHRRepository;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class EHRService {
@@ -21,7 +20,7 @@ public class EHRService {
     // ✅ Updated saveRecord to include NLP processing
     public EHR saveRecord(EHR ehr) {
         // Call NLP to extract diagnosis, ICD code, and symptoms
-        Map<String, Object> nlpResult = nlpService.extractData(ehr.getDiagnosis());
+        Map<String, Object> nlpResult = (Map<String, Object>) nlpService.extractMedicalData(ehr.getDiagnosis());
 
         ehr.setDiagnosis((String) nlpResult.get("diagnosis"));
         ehr.setIcdCode((String) nlpResult.get("icdCode"));
