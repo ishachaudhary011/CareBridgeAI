@@ -160,3 +160,8 @@ GET /ehr/patient/{id}
   - NLP & Medical Entity Extraction  
   - ICD-10 Code Integration  
   - Audio-to-EHR Pipeline
+
+[Isha Chaudhary](https://github.com/ishachaudhary011)  
+*Backend Developer*  
+- Project Initialization & Architecture  
+- Database Design & Integration  
