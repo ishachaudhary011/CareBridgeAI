@@ -152,3 +152,11 @@ GET /ehr/patient/{id}
 * 📱 Real-time audio streaming support
 * 🔍 Advanced ICD matching (fuzzy search / ML)
 * 🧾 Multi-language support (Hindi + English)
+
+## 🤝 Contributors
+
+[Himanshu Singh](https://github.com/himanshux19)  
+*Backend Developer*  
+  - NLP & Medical Entity Extraction  
+  - ICD-10 Code Integration  
+  - Audio-to-EHR Pipeline
