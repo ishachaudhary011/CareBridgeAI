@@ -13,9 +13,18 @@ public class EHR {
     private Long patientId;
     private String patientName;
 
+    @Column(length = 1000)
     private String diagnosis;
+
     private String icdCode;
+
+    @Column(length = 1000)
     private String symptoms;
+
+    @Column(length = 1000) // 🔥 NEW FIELD
+    private String medications;
+
+    // ✅ GETTERS & SETTERS
 
     public Long getId() {
         return id;
@@ -59,5 +68,13 @@ public class EHR {
 
     public void setSymptoms(String symptoms) {
         this.symptoms = symptoms;
+    }
+
+    public String getMedications() {
+        return medications;
+    }
+
+    public void setMedications(String medications) {
+        this.medications = medications;
     }
 }

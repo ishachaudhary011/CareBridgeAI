@@ -1,12 +1,12 @@
 package com.carebridge.service;
 
+import com.carebridge.DTO.MedicalResponse;
 import com.carebridge.entity.EHR;
 import com.carebridge.repository.EHRRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 public class EHRService {
@@ -17,14 +17,34 @@ public class EHRService {
     @Autowired
     private EHRRepository ehrRepository;
 
-    // ✅ Updated saveRecord to include NLP processing
+    // ✅ SAVE RECORD WITH NLP
     public EHR saveRecord(EHR ehr) {
-        // Call NLP to extract diagnosis, ICD code, and symptoms
-        Map<String, Object> nlpResult = (Map<String, Object>) nlpService.extractMedicalData(ehr.getDiagnosis());
 
-        ehr.setDiagnosis((String) nlpResult.get("diagnosis"));
-        ehr.setIcdCode((String) nlpResult.get("icdCode"));
-        ehr.setSymptoms((String) nlpResult.get("symptoms"));
+        // 🔥 Call NLP correctly
+        MedicalResponse response = nlpService.extractMedicalData(ehr.getDiagnosis());
+
+        // ✅ Map NLP → EHR safely
+
+        if (response != null) {
+
+            // diseases → diagnosis
+            if (response.getDiseases() != null && !response.getDiseases().isEmpty()) {
+                ehr.setDiagnosis(String.join(", ", response.getDiseases()));
+            }
+
+            // symptoms list → string
+            if (response.getSymptoms() != null) {
+                ehr.setSymptoms(String.join(", ", response.getSymptoms()));
+            }
+
+            // medications → you can store if field exists
+            if (response.getMedications() != null) {
+                ehr.setMedications(String.join(", ", response.getMedications()));
+            }
+
+            // Optional: ICD code logic later (AI or mapping)
+            ehr.setIcdCode("N/A");
+        }
 
         return ehrRepository.save(ehr);
     }

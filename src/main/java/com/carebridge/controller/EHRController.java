@@ -9,24 +9,25 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/ehr")
+@CrossOrigin("*") // 🔥 IMPORTANT (frontend fix)
 public class EHRController {
 
     @Autowired
     private EHRService ehrService;
 
-    // 🔹 SAVE RECORD (NLP will run automatically)
+    // ✅ SAVE RECORD
     @PostMapping("/save")
     public EHR saveRecord(@RequestBody EHR ehr) {
         return ehrService.saveRecord(ehr);
     }
 
-    // 🔹 GET ALL RECORDS
+    // ✅ GET ALL
     @GetMapping("/all")
     public List<EHR> getAllRecords() {
         return ehrService.getAllRecords();
     }
 
-    // 🔹 GET BY PATIENT ID
+    // ✅ GET BY PATIENT ID
     @GetMapping("/patient/{id}")
     public List<EHR> getPatientRecords(@PathVariable Long id) {
         return ehrService.getPatientRecords(id);
