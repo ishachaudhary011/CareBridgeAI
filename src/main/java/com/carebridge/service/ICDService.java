@@ -1,13 +1,15 @@
 package com.carebridge.service;
 
 import com.carebridge.entity.ICDEntry;
+import com.opencsv.CSVReader;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Service;
 
-import jakarta.annotation.PostConstruct;
-import java.io.BufferedReader;
 import java.io.FileReader;
-import java.util.*;
-import com.opencsv.CSVReader;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Service
 public class ICDService {
@@ -60,5 +62,21 @@ public class ICDService {
         }
 
         return results.size() > 3 ? results.subList(0, 3) : results;
+    }
+
+    public String getICDCode(List<String> diseases) {
+
+        Set<String> codes = new HashSet<>();
+
+        for (String disease : diseases) {
+
+            List<ICDEntry> matches = searchICD(disease);
+
+            for (ICDEntry entry : matches) {
+                codes.add(entry.getCode());   // 🔥 extract code only
+            }
+        }
+
+        return String.join(", ", codes);
     }
 }

@@ -1,4 +1,5 @@
 package com.carebridge.entity;
+
 public class ICDEntry {
 
     private String code;

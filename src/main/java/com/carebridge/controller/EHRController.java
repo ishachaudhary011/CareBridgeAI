@@ -4,30 +4,36 @@ import com.carebridge.entity.EHR;
 import com.carebridge.service.EHRService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
 @RequestMapping("/ehr")
-@CrossOrigin("*") // 🔥 IMPORTANT (frontend fix)
+@CrossOrigin("*")
 public class EHRController {
 
     @Autowired
     private EHRService ehrService;
 
-    // ✅ SAVE RECORD
+    // ✅ EXISTING
     @PostMapping("/save")
     public EHR saveRecord(@RequestBody EHR ehr) {
         return ehrService.saveRecord(ehr);
     }
 
-    // ✅ GET ALL
+    // 🔥 NEW (FULL PIPELINE)
+    @PostMapping(value = "/process-audio", consumes = {"multipart/form-data"})
+    public EHR processAudio(@RequestParam("file") MultipartFile file) throws IOException {
+        return ehrService.processAudio(file);
+    }
+
     @GetMapping("/all")
     public List<EHR> getAllRecords() {
         return ehrService.getAllRecords();
     }
 
-    // ✅ GET BY PATIENT ID
     @GetMapping("/patient/{id}")
     public List<EHR> getPatientRecords(@PathVariable Long id) {
         return ehrService.getPatientRecords(id);
